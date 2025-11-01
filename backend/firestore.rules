@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users must be authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /circles/{circleId} {
+      // Read allowed if user is a member
+      allow read: if isSignedIn() && request.auth.uid in resource.data.members;
+
+      // Create allowed only to signed-in users
+      allow create: if isSignedIn();
+
+      // Join allowed: user can only add themselves
+      allow update: if isSignedIn() && request.resource.data.members.hasOnly([request.auth.uid]);
+    }
+  }
+}
