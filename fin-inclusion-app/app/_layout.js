@@ -4,10 +4,10 @@ import { LanguageProvider } from "../context/LanguageContext";
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <LanguageProvider>
+    <LanguageProvider>
+      <AuthProvider>
         <Stack screenOptions={{ headerShown: false }} />
-      </LanguageProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
